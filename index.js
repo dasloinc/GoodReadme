@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const api = require("./utils/api.js");
-const generateMarkdown = require("./utils/generateMarkdown.js");
+const generateMarkdown = require("./utils/generateMarkdown");
 const axios = require("axios");
 
 //Questions
@@ -16,7 +16,7 @@ function questions(){
         name: "Title"
     },
     {
-        message: "Description of your project in a few words",
+        message: "Description of your Application in a few words",
         name: "Description"
     },
     {
@@ -35,10 +35,6 @@ function questions(){
     {
         message: "Provide the license of the application",
         name: "License"
-    },
-    {
-        messages: "list all the contributors for the project",
-        name: "Contributors"
     },
     {
         type: "input",
