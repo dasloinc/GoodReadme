@@ -28,7 +28,7 @@ function generateMarkdown(userInput, gitInfo) {
   ## Questions
   For any questions regarding the repo contact: ${email}
   GitHub username: ${gitInfo.login}
-  <img src="${gitInfo.avatar_url}" alt="avatar" height="200" width="200"/>
+  <img src="${gitInfo.avatar_url}" alt="avatar" height="75" width="75"/>
   `;
 };
 module.exports = generateMarkdown;
