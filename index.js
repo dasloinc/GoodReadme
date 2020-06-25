@@ -1,67 +1,26 @@
-const inquirer = require("inquirer");
+require("dotenv").config();
 const fs = require("fs");
-const api = require("./utils/api.js");
+const inquirer = require("inquirer");
+const util = require("util");
+const api = require("./utils/api");
+const questions = require("./utils/questions");
 const generateMarkdown = require("./utils/generateMarkdown");
-const axios = require("axios");
+const writeFileAsync = util.promisify(fs.writeFile);
 
-//Questions
-function questions(){
- return inquirer.prompt([
-    {
-        message: "Enter your GitHub username:",
-        name: "Username"
-    },
-    {
-        message: "What is the title of your project ",
-        name: "Title"
-    },
-    {
-        message: "Description of your Application in a few words",
-        name: "Description"
-    },
-    {
-        type: "input",
-        name: "contents",
-        message: "What are the contents of the project?"
-    },
-    {
-        message: 'What are the necessary packages required to be installed to run the application? ',
-        name: 'Installation'
-    },
-    {
-        message: "How to use the application ",
-        name: "Usage"
-    },
-    {
-        message: "Provide the license of the application",
-        name: "License"
-    },
-    {
-        type: "input",
-        name: "Test",
-        message: "How to test the application to make sure it is running?"
-    }
-])}
-
-function generate(data,me) {
-    fs.writeFile('README.md', generateMarkdown(data, me), (err) => {
-        if (err) {
-            throw err;
-        }
-    })
-}
-
+// async function to await user input and github info
 async function init() {
-    console.log("hi")
     try {
-        const answers = await questions();
-        const README = await api(answers.username);
-        await generate(answers, README);
-
-        console.log("Successfully generated README.md");
-    } catch (err) {
+        const userInput = await inquirer.prompt(questions);
+        const { data: gitInfo } = await api.getUser(userInput.username);
+//   next two lines break down what const {data : gitInfo}
+//   const data = await api.getUser(userInfo.username);
+//   const gitInfo = data.data;
+        const readme = generateMarkdown(userInput, gitInfo)
+//create md file 
+        await writeFileAsync("newReadMe.md", readme);
+    } catch (err){
         console.log(err);
     }
-}
+};
 
 init();

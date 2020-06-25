@@ -1,38 +1,34 @@
-function generateMarkdown(data, response) {
+function generateMarkdown(userInput, gitInfo) {
+  // if user has an email address than email will be presented otherwise "user does not have an email" will be displayed
+  const email = gitInfo.email || "User does not have an email"
+
   return `
-# ${data.title}
-# Table of Contents:
-1. [Description](#description)
-2. [Contents](#contents)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Licensing](#license)nod
-6. [Contributions](#contributions)
-7. [Test](#test)
-8. [Questions](#questions)
-## Description
-${data.Description}
-## Contents
-${data.contents}
-## Installation
-${data.installation}
-## Usage
-${data.usage}
-## License
-${data.license}
-## Contributions
-${data.contributions}
-## Test
-${data.test}
-## Questions
-${data.questions}
-## Badge(s)
-![Badge](${data.badge})
-## Questions
-<img src="${response.data.avatar_url}" height="100" width="75">
-
-${response.data.email}
-`;
-}
-
+  # ${userInput.title}
+  ## Description
+  ${userInput.description}
+  ## Table of Contents
+  * [Installation](#installation)
+  * [Usage](#usage)
+  * [License](#license)
+  * [Contributing](#contributing)
+  * [Tests](#tests)
+  * [Questions](#questions)
+  
+  ## Installation
+  ${userInput.installation}
+  ## Usage
+  ${userInput.usage}
+  ## License
+  This project is licensed under the ${userInput.license} license.
+  <img src="https://img.shields.io/badge/License-${userInput.license}-orange" alt="badge"/>
+  ## Contributing
+  ${userInput.credits}
+  ## Tests
+      ${userInput.tests}
+  ## Questions
+  For any questions regarding the repo contact: ${email}
+  GitHub username: ${gitInfo.login}
+  <img src="${gitInfo.avatar_url}" alt="avatar" height="200" width="200"/>
+  `;
+};
 module.exports = generateMarkdown;
